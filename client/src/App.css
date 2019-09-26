@@ -10,3 +10,16 @@
 .App-header {
   color: #09d3ac;
 }
+
+.grid {
+  background-color: white;
+}
+
+.card {
+  height: 100px;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cffff5 !important;
+}
