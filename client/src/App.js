@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Grid, Header, Card, } from 'semantic-ui-react';
 
 class App extends React.Component {
-  state = { categories: [], cards: [], };
+  state = { categories: [], cards: [], question: null, };
 
   componentDidMount() {
     axios.get('/api/categories')
@@ -18,21 +18,42 @@ class App extends React.Component {
       })
   };
 
+  showQuestion = (c_question, c_points, cat) => {
+    this.setState({ question: `${cat} for ${c_points} : ${c_question}`, });
+  }
+
   render() {
+    const { categories, cards, question,  } = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <h1>REACT JEOPARDY</h1>
         </header>
         <br />
+        { question &&
+          <>
+            <div className="qna">
+              {this.state.question}
+              <br />
+              <br />
+              <input />
+            </div>
+            <br />
+            <br />
+          </>
+        }
         <Grid className="grid" divided>
-          { this.state.categories.map( c => 
+          { categories.map( c => 
             <Grid.Column key={c.id} width={4}>
               <Header as="h2">{c.name}</Header>
-              { this.state.cards.map( card => {
+              { cards.map( card => {
                   if (c.id === card.category_id) 
                     return ( 
-                      <Card key={`card_${card.id}`} className="card">
+                      <Card 
+                        key={`card_${card.id}`} 
+                        className="card"
+                        onClick={() => this.showQuestion(card.question, card.points, c.name)}
+                      >
                         {card.points}
                       </Card>
                     )
